@@ -1,13 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import PayView from '../views/PayView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'pay',
-      component: PayView,
+      name: 'home',
+      component: () => import('../pages/HomePage.vue'),
+    },
+    {
+      path: '/widget',
+      name: 'widget',
+      children: [
+        {
+          path: 'checkout',
+          name: 'widget-checkout',
+          component: () => import('../pages/widget/WidgetCheckout.vue'),
+        },
+        {
+          path: 'success',
+          name: 'widget-success',
+          component: () => import('../pages/widget/WidgetSuccess.vue'),
+        },
+      ],
     },
   ],
 });
