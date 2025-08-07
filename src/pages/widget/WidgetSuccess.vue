@@ -83,35 +83,39 @@ const router = useRouter();
 
 const responseData = ref(null);
 
-// async function confirm() {
-//   const requestData = {
-//     orderId: route.query.orderId,
-//     amount: route.query.amount,
-//     paymentKey: route.query.paymentKey,
-//   };
+// 백엔드 서버 없이 결제 수행
+const ON_SERVER = false;
 
-//   const response = await fetch('/api/confirm/widget', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(requestData),
-//   });
+async function confirm() {
+  const requestData = {
+    orderId: route.query.orderId,
+    amount: route.query.amount,
+    paymentKey: route.query.paymentKey,
+  };
 
-//   const json = await response.json();
+  const response = await fetch('/api/confirm/widget', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestData),
+  });
 
-//   if (!response.ok) {
-//     throw { message: json.message, code: json.code };
-//   }
+  const json = await response.json();
 
-//   return json;
-// }
+  if (!response.ok) {
+    throw { message: json.message, code: json.code };
+  }
 
-// confirm()
-//   .then((data) => {
-//     responseData.value = data;
-//   })
-//   .catch((error) => {
-//     router.replace(`/fail?code=${error.code}&message=${error.message}`);
-//   });
+  return json;
+}
+
+if (ON_SERVER) {
+  try {
+    const data = confirm();
+    responseData.value = data;
+  } catch (e) {
+    router.replace(`/fail?code=${error.code}&message=${error.message}`);
+  }
+}
 </script>
