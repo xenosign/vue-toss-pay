@@ -75,6 +75,7 @@
 </template>
 
 <script setup>
+import { log } from 'node:console';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -117,5 +118,7 @@ if (ON_SERVER) {
   } catch (e) {
     router.replace(`/fail?code=${error.code}&message=${error.message}`);
   }
+} else {
+  console.log("백엔드 연결이 안되었습니다");  
 }
 </script>
